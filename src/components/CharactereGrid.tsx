@@ -10,12 +10,11 @@ function AfficheGrille({characters, title}: CharactereGrid) {
         <div className={"charctere-grille"}>
             <h3>{title}</h3>
                 <div className={"grid"}>
-                    {characters.map((character, index)=>(
-
-                    <CharacterCard key={index}
-                                   charactere={character.charactere}
-                                   romanji={character.romanji}>
-                    </CharacterCard>
+                    {characters.map((character)=>(
+                        <CharacterCard key={character.charactere}
+                                       charactere={character.charactere}
+                                       romanji={character.romanji}
+                        />
                     ))}
                 </div>
         </div>
