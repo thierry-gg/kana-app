@@ -55,24 +55,12 @@ export const kanadata: Kana[] = [
     { hiragana: 'め', katakana: 'メ', romanji: 'me', row: 'ma' },
     { hiragana: 'も', katakana: 'モ', romanji: 'mo', row: 'ma' },
 
-// Ligne ya
-    { hiragana: 'や', katakana: 'ヤ', romanji: 'ya', row: 'ya' },
-    { hiragana: 'ゆ', katakana: 'ユ', romanji: 'yu', row: 'ya' },
-    { hiragana: 'よ', katakana: 'ヨ', romanji: 'yo', row: 'ya' },
-
 // Ligne ra
     { hiragana: 'ら', katakana: 'ラ', romanji: 'ra', row: 'ra' },
     { hiragana: 'り', katakana: 'リ', romanji: 'ri', row: 'ra' },
     { hiragana: 'る', katakana: 'ル', romanji: 'ru', row: 'ra' },
     { hiragana: 'れ', katakana: 'レ', romanji: 're', row: 'ra' },
     { hiragana: 'ろ', katakana: 'ロ', romanji: 'ro', row: 'ra' },
-
-// Ligne wa
-    { hiragana: 'わ', katakana: 'ワ', romanji: 'wa', row: 'wa' },
-    { hiragana: 'を', katakana: 'ヲ', romanji: 'wo', row: 'wa' },
-
-// n
-    { hiragana: 'ん', katakana: 'ン', romanji: 'n', row: 'n' },
 
 // Ligne ga (dakuten)
     { hiragana: 'が', katakana: 'ガ', romanji: 'ga', row: 'ga' },
@@ -108,4 +96,17 @@ export const kanadata: Kana[] = [
     { hiragana: 'ぷ', katakana: 'プ', romanji: 'pu', row: 'pa' },
     { hiragana: 'ぺ', katakana: 'ペ', romanji: 'pe', row: 'pa' },
     { hiragana: 'ぽ', katakana: 'ポ', romanji: 'po', row: 'pa' },
+
+    // Ligne ya
+    { hiragana: 'や', katakana: 'ヤ', romanji: 'ya', row: 'ya' },
+    { hiragana: 'ゆ', katakana: 'ユ', romanji: 'yu', row: 'ya' },
+    { hiragana: 'よ', katakana: 'ヨ', romanji: 'yo', row: 'ya' },
+
+    // Ligne wa
+    { hiragana: 'わ', katakana: 'ワ', romanji: 'wa', row: 'wa' },
+    { hiragana: 'を', katakana: 'ヲ', romanji: 'wo', row: 'wa' },
+
+// n
+    { hiragana: 'ん', katakana: 'ン', romanji: 'n', row: 'n' },
+
 ];
