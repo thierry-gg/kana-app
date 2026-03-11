@@ -1,31 +1,50 @@
-// import { useState } from 'react'
+// App.tsx
+import { useState } from 'react'
 import './App.css'
-// import AfficherCaractere from "./components/CharacterCard.tsx";
-import type { CharacterCard }from "./components/CharacterCard.tsx";
-import AfficherGrille from "./components/CharactereGrid.tsx";
-import {kanadata} from "./data/Kana.tsx";
+import type { CharacterCard } from "./components/CharacterCard.tsx";
+import AfficheGrille from "./components/CharactereGrid.tsx";
+import { type Kana, kanadata } from "./data/Kana.tsx";
+
+const groupByRow = (kanas: Kana[]): Record<string, Kana[]> => {
+    return kanas.reduce((acc, kana) => {
+        if (!acc[kana.row]) acc[kana.row] = [];
+        acc[kana.row].push(kana);
+        return acc;
+    }, {} as Record<string, Kana[]>);
+};
 
 function App() {
+    const [script, setScript] = useState<'hiragana' | 'katakana'>('hiragana');
+    const grouped = groupByRow(kanadata);
 
-    const hiragana: CharacterCard[] = kanadata.map(k=>({
-        charactere: k.hiragana,
-        romanji: k.romanji
-    }))
+    return (
+        <>
+            <h1>Apprentissage du Japonais - Kana</h1>
 
-    const katakana: CharacterCard[] = kanadata.map(k => ({
-        charactere: k.hiragana,
-        romanji: k.romanji
-    }))
+            {/* Sélection du script */}
+            <div>
+                <label>
+                    <input type="radio" checked={script === 'hiragana'} onChange={() => setScript('hiragana')} />
+                    Hiragana
+                </label>
+                <label>
+                    <input type="radio" checked={script === 'katakana'} onChange={() => setScript('katakana')} />
+                    Katakana
+                </label>
+            </div>
 
-  return (
-    <>
-    <h1>Apprentissage du Japonais - Kana</h1>
-      <div>
-          <AfficherGrille title={"Hiragana"} characters={hiragana}></AfficherGrille>
-          <AfficherGrille characters={katakana} title={"Katakana"}></AfficherGrille>
-      </div>
-    </>
-  )
+            {/* Affichage des grilles */}
+            <div>
+                {Object.entries(grouped).map(([row, kanas]) => {
+                    const characters: CharacterCard[] = kanas.map(k => ({
+                        charactere: script === 'hiragana' ? k.hiragana : k.katakana,
+                        romanji: k.romanji
+                    }));
+                    return <AfficheGrille key={row} title={``} characters={characters} />;
+                })}
+            </div>
+        </>
+    );
 }
 
-export default App
+export default App;
