@@ -1,5 +1,5 @@
-import type {Kana} from "../data/Kana.tsx";
-import {useState} from "react";
+import type { Kana } from "../data/Kana.tsx";
+import { useState, useEffect } from 'react';
 
 function Quiz({ kanaData }: { kanaData: Kana[] }) {
     const [script, setScript] = useState<'hiragana' | 'katakana' | 'les deux'>('hiragana');
@@ -8,12 +8,21 @@ function Quiz({ kanaData }: { kanaData: Kana[] }) {
     );
     const [currentIndex, setCurrentIndex] = useState(0);
     const [userAnswer, setUserAnswer] = useState('');
-    const [score, setScore] = useState({ correct: 0, total: 0 });
     const [feedback, setFeedback] = useState('');
+
+    // ✅ score avec localStorage, DANS le composant, PAS dans handleSubmit
+    const [score, setScore] = useState(() => {
+        const saved = localStorage.getItem('kana-score');
+        return saved ? JSON.parse(saved) : { correct: 0, total: 0 };
+    });
+
+    // ✅ useEffect DANS le composant, PAS dans handleSubmit
+    useEffect(() => {
+        localStorage.setItem('kana-score', JSON.stringify(score));
+    }, [score]);
 
     const currentKana = shuffledKana[currentIndex % shuffledKana.length];
 
-    // ✅ Affiche hiragana, katakana, ou alterne selon le choix
     const displayChar = script === 'hiragana'
         ? currentKana.hiragana
         : script === 'katakana'
@@ -23,12 +32,15 @@ function Quiz({ kanaData }: { kanaData: Kana[] }) {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         const isCorrect = userAnswer.toLowerCase().trim() === currentKana.romanji.toLowerCase();
+
         setScore(prev => ({
             correct: prev.correct + (isCorrect ? 1 : 0),
             total: prev.total + 1
         }));
+
         setFeedback(isCorrect ? '✅ Correct !' : `❌ Incorrect. C'était : ${currentKana.romanji}`);
         setUserAnswer('');
+
         setTimeout(() => {
             setCurrentIndex(prev => prev + 1);
             setFeedback('');
@@ -37,8 +49,7 @@ function Quiz({ kanaData }: { kanaData: Kana[] }) {
 
     return (
         <div>
-            {/* ✅ Sélection du script dans le quiz */}
-            <div>
+            <div className="script-selector">
                 <label>
                     <input type="radio" checked={script === 'hiragana'} onChange={() => setScript('hiragana')} />
                     Hiragana
@@ -53,10 +64,9 @@ function Quiz({ kanaData }: { kanaData: Kana[] }) {
                 </label>
             </div>
 
-            <div>Score : {score.correct} / {score.total}</div>
-
-            <div>
-                <h2>{displayChar}</h2>
+            <div className="quiz-container">
+                <div className="score">Score : {score.correct} / {score.total}</div>
+                <h2 className="charactere-display">{displayChar}</h2>
             </div>
 
             <form onSubmit={handleSubmit}>
@@ -64,7 +74,7 @@ function Quiz({ kanaData }: { kanaData: Kana[] }) {
                     type="text"
                     value={userAnswer}
                     onChange={e => setUserAnswer(e.target.value)}
-                    placeholder="Rōmaji..."
+                    placeholder="Entrer votre réponse"
                     autoFocus
                     disabled={feedback !== ''}
                 />
